@@ -7,7 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.majid2851.kotlin_modularization.ui.theme.DotaInfoTheme 
+//import com.majid2851.kotlin_modularization.ui.theme.DotaInfoTheme
 
 class MainActivity : ComponentActivity()
 {
@@ -15,10 +15,10 @@ class MainActivity : ComponentActivity()
     {
         super.onCreate(savedInstanceState)
         setContent {
-            DotaInfoTheme() 
-            {
-                
-            }
+//            DotaInfoTheme()
+//            {
+//
+//            }
         }
     }
 }
@@ -34,7 +34,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    DotaInfoTheme() {
-        Greeting("Android")
-    }
+//    DotaInfoTheme() {
+//        Greeting("Android")
+//    }
 }

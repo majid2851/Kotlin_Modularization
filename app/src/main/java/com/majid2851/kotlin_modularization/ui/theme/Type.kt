@@ -17,67 +17,57 @@ private val QuickSand = FontFamily(
 )
 
 val QuickSandTypography = Typography(
-    h1 = TextStyle(
+    titleLarge = TextStyle(
         fontFamily = QuickSand,
         fontWeight = FontWeight.W500,
         fontSize = 32.sp,
     ),
-    h2 = TextStyle(
-        fontFamily = QuickSand,
-        fontWeight = FontWeight.W500,
-        fontSize = 26.sp,
-    ),
-    h3 = TextStyle(
+    titleMedium = TextStyle(
         fontFamily = QuickSand,
         fontWeight = FontWeight.W500,
         fontSize = 22.sp,
     ),
-    h4 = TextStyle(
-        fontFamily = QuickSand,
-        fontWeight = FontWeight.W400,
-        fontSize = 20.sp,
-    ),
-    h5 = TextStyle(
+    titleSmall = TextStyle(
         fontFamily = QuickSand,
         fontWeight = FontWeight.W400,
         fontSize = 18.sp,
     ),
-    h6 = TextStyle(
+    labelLarge = TextStyle(
         fontFamily = QuickSand,
         fontWeight = FontWeight.W400,
         fontSize = 16.sp,
     ),
-    subtitle1 = TextStyle(
+    labelMedium = TextStyle(
         fontFamily = QuickSand,
         fontWeight = FontWeight.W500,
         fontSize = 15.sp,
     ),
-    subtitle2 = TextStyle(
+    labelSmall = TextStyle(
         fontFamily = QuickSand,
         fontWeight = FontWeight.W400,
         fontSize = 14.sp,
     ),
-    body1 = TextStyle(
+    bodyLarge = TextStyle(
         fontFamily = QuickSand,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     ),
-    body2 = TextStyle(
+    bodyMedium = TextStyle(
         fontFamily = QuickSand,
         fontSize = 14.sp
     ),
-    button = TextStyle(
+    headlineLarge = TextStyle(
         fontFamily = QuickSand,
         fontWeight = FontWeight.W400,
         fontSize = 16.sp,
         color = Color.White
     ),
-    caption = TextStyle(
+    headlineMedium = TextStyle(
         fontFamily = QuickSand,
         fontWeight = FontWeight.Normal,
         fontSize = 13.sp
     ),
-    overline = TextStyle(
+    headlineSmall = TextStyle(
         fontFamily = QuickSand,
         fontWeight = FontWeight.W400,
         fontSize = 13.sp

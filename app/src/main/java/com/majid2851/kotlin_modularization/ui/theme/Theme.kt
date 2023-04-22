@@ -1,17 +1,18 @@
 package com.majid2851.kotlin_modularization.ui.theme
+
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-private val DarkColorPalette = darkColors(
+private val DarkColorPalette = darkColorScheme(
     primary = Blue300,
-    primaryVariant = Blue700,
+    primaryContainer = Blue700,
     onPrimary = Color.White,
     secondary = Color.Black,
-    secondaryVariant = Teal300,
+    secondaryContainer = Teal300,
     onSecondary = Color.White,
     error = RedErrorLight,
     onError = RedErrorDark,
@@ -21,12 +22,12 @@ private val DarkColorPalette = darkColors(
     onSurface = Color.White,
 )
 
-private val LightColorPalette = lightColors(
+private val LightColorPalette = lightColorScheme(
     primary = Blue600,
-    primaryVariant = Blue400,
+    primaryContainer = Blue400,
     onPrimary = Black1,
     secondary = Color.White,
-    secondaryVariant = Teal300,
+    secondaryContainer = Teal300,
     onSecondary = Color.Black,
     error = RedErrorDark,
     onError = RedErrorLight,
@@ -45,7 +46,7 @@ fun DotaInfoTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composab
     }
 
     MaterialTheme(
-        colors = colors,
+        colorScheme = colors,
         typography = QuickSandTypography,
         shapes = AppShapes,
         content = content
