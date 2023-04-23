@@ -1,6 +1,5 @@
 package com.majid2851.core
 
-import jdk.internal.net.http.common.Log
 
 class Logger(
     private val tag:String,
