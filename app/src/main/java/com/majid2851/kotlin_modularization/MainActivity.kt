@@ -22,6 +22,7 @@ import com.majid2851.core.UIComponent
 import com.majid2851.hero_domain.Hero
 import com.majid2851.hero_interactors.HeroInteractors
 import com.majid2851.kotlin_modularization.ui.theme.DotaInfoTheme
+import com.squareup.sqldelight.android.AndroidSqliteDriver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.launchIn
@@ -38,7 +39,14 @@ class MainActivity : ComponentActivity()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        val getHeros=HeroInteractors.build().getHeros
+
+        val getHeros=HeroInteractors.build(
+            sqlDriver = AndroidSqliteDriver(
+                schema = HeroInteractors.schema,
+                context = this,
+                name = HeroInteractors.dbName
+            )
+        ).getHeros
         val logger= Logger("GetHerosTest")
         getHeros.excecute().onEach {
             when(it)
