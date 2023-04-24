@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+//    id(SqlDelight.plugin) version SqlDelight.version
 }
 
 android {
@@ -50,6 +51,9 @@ dependencies {
     implementation(project(Modules.core))
     implementation(project(Modules.heroDomain))
     implementation(project(Modules.heroInteractors))
+
+//    implementation (SqlDelight.runtime)
+//    implementation (SqlDelight.androidDriver)
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.20")
     implementation 'androidx.core:core-ktx:1.9.0'
