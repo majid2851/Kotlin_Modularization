@@ -3,6 +3,7 @@ package com.majid2851.hero_interactors
 import com.majid2851.core.DataState
 import com.majid2851.core.ProgressBarState
 import com.majid2851.core.UIComponent
+import com.majid2851.hero_datasource.cache.HeroCache
 import com.majid2851.hero_datasource.network.HeroService
 import com.majid2851.hero_domain.Hero
 import kotlinx.coroutines.flow.Flow
@@ -10,8 +11,8 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.merge
 
 class GetHeros(
+    private val heroCache: HeroCache,
     private val service:HeroService
-    //TODO => ADD CACHING
 )
 {
     fun excecute():Flow<DataState<List<Hero>>> = flow{
@@ -31,10 +32,10 @@ class GetHeros(
                 )
                 listOf()
             }
+            heroCache.insert(heros)
+            val cachedHeros=heroCache.selectAll()
 
-            //TODO(CACHING)
-
-            emit(DataState.Data(data = heros))
+            emit(DataState.Data(data = cachedHeros))
 
 
         }catch (e:Exception){
