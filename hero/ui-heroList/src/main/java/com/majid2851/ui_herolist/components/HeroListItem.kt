@@ -1,7 +1,9 @@
 package com.majid2851.ui_herolist.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -10,19 +12,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.ImageLoader
+import coil.compose.rememberImagePainter
 import com.majid2851.hero_domain.Hero
 import com.majid2851.ui_herolist.ui.test.TAG_HERO_NAME
 import com.majid2851.ui_herolist.ui.test.TAG_HERO_PRIMARY_ATTRIBUTE
 import kotlin.math.round
+import com.majid2851.ui_herolist.R
+
 
 @Composable
 fun HeroListItem(
     hero: Hero,
     onSelectHero: (Int) -> Unit,
-    // imageLoader: ImageLoader, // TODO
+    imageLoader: ImageLoader,
 ){
     Surface(
         modifier = Modifier
@@ -43,12 +51,23 @@ fun HeroListItem(
             ,
             verticalAlignment = Alignment.CenterVertically
         ){
-            Box( // TODO(Replace with Image)
+            val painter= rememberImagePainter(
+                hero.img,
+                imageLoader=imageLoader,
+                builder = {
+                    placeholder(if (isSystemInDarkTheme())
+                        R.drawable.black_background
+                    else R.drawable.white_background)
+                }
+            )
+            Image( // TODO(Replace with Image)
                 modifier = Modifier
                     .width(120.dp)
-                    .height(100.dp)
+                    .height(70.dp)
                     .background(Color.LightGray)
-                ,
+                , painter = painter
+                , contentDescription = hero.localizedName
+                , contentScale = ContentScale.Crop
             )
             Column(
                 modifier = Modifier

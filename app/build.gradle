@@ -54,6 +54,8 @@ dependencies {
     implementation(project(Modules.ui_heroList))
     implementation(project(Modules.ui_heroDetail))
 
+    implementation(Coil.coil)
+
     implementation (SqlDelight.androidDriver)
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.20")

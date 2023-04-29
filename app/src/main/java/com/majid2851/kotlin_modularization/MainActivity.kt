@@ -15,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import coil.ImageLoader
 import com.majid2851.core.DataState
 import com.majid2851.core.Logger
 import com.majid2851.core.ProgressBarState
@@ -38,9 +39,21 @@ class MainActivity : ComponentActivity()
         :MutableState<ProgressBarState> = mutableStateOf(
             ProgressBarState.Idle
         )
+    private lateinit var imageLoader:ImageLoader
+
+
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
+
+        imageLoader=ImageLoader.Builder(
+            applicationContext
+        )
+        .error(R.drawable.error_image)
+        .placeholder(R.drawable.white_background)
+        .crossfade(true)
+        .build()
 
         val getHeros=HeroInteractors.build(
             sqlDriver = AndroidSqliteDriver(
@@ -79,7 +92,8 @@ class MainActivity : ComponentActivity()
             DotaInfoTheme()
             {
                 HeroList(
-                    state = state.value
+                    state = state.value,
+                    imageLoader=imageLoader
                 )
             }
         }
