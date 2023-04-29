@@ -76,21 +76,7 @@ class MainActivity : ComponentActivity()
         setContent {
             DotaInfoTheme()
             {
-                Box(modifier = Modifier.fillMaxSize())
-                {
-                    LazyColumn()
-                    {
-                        items(heros.value){hero->
-                            Text(text = hero.localizedName)
-                        }
-                    }
-                }
-                if (progressBarState.value is ProgressBarState.Loading)
-                {
-                    CircularProgressIndicator(
-//                        modifier=Modifier.align(Alignment.CenterVertically)
-                    )
-                }
+//                HeroList()
             }
         }
     }

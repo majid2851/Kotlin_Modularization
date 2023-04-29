@@ -2,4 +2,6 @@
 <resources>
 
     <style name="Theme.Kotlin_Modularization" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.Kotlin_Modularization_2" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>
