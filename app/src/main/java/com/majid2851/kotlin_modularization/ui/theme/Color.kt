@@ -9,6 +9,8 @@ val Blue600 = Color(0xFF1E88E5)
 val Blue700 = Color(0xFF1976D2)
 val Blue800 = Color(0xFF1565C0)
 
+val WHITE=Color(0xFFFFFFFF)
+
 val Teal300 = Color(0xFF1AC6FF)
 
 val GreenCheck = Color(0xFF009a34)

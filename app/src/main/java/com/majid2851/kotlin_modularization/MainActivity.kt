@@ -22,6 +22,8 @@ import com.majid2851.core.UIComponent
 import com.majid2851.hero_domain.Hero
 import com.majid2851.hero_interactors.HeroInteractors
 import com.majid2851.kotlin_modularization.ui.theme.DotaInfoTheme
+import com.majid2851.ui_herolist.HeroList
+import com.majid2851.ui_herolist.HeroListState
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -30,8 +32,8 @@ import kotlinx.coroutines.flow.onEach
 
 class MainActivity : ComponentActivity()
 {
-    private val heros:MutableState<List<Hero>> =
-        mutableStateOf(listOf())
+    private val state:MutableState<HeroListState> =
+        mutableStateOf(HeroListState())
     private val progressBarState
         :MutableState<ProgressBarState> = mutableStateOf(
             ProgressBarState.Idle
@@ -64,7 +66,7 @@ class MainActivity : ComponentActivity()
                 }
 
                 is DataState.Data->{
-                    heros.value=it.data ?: listOf()
+                    state.value=state.value.copy(heros = it.data ?: listOf())
                 }
                 is DataState.Loading->{
                     progressBarState.value=it.progressBarState
@@ -76,7 +78,9 @@ class MainActivity : ComponentActivity()
         setContent {
             DotaInfoTheme()
             {
-//                HeroList()
+                HeroList(
+                    state = state.value
+                )
             }
         }
     }
