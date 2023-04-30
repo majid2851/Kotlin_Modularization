@@ -1,4 +1,4 @@
-package com.majid2851.ui_herolist
+package com.majid2851.ui_herolist.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +14,7 @@ import com.majid2851.ui_herolist.components.HeroListItem
 
 @Composable
 fun HeroList(
-    state:HeroListState,
+    state: HeroListState,
     imageLoader:ImageLoader
 )
 {

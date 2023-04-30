@@ -1,4 +1,4 @@
-package com.majid2851.ui_herolist
+package com.majid2851.ui_herolist.ui
 
 import com.majid2851.core.ProgressBarState
 import com.majid2851.hero_domain.Hero
