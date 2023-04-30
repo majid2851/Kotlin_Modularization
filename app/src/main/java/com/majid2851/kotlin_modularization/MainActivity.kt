@@ -26,11 +26,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity()
 {
-    private lateinit var imageLoader:ImageLoader
+    @Inject
+    lateinit var imageLoader:ImageLoader
 
 
 
@@ -38,13 +40,6 @@ class MainActivity : ComponentActivity()
     {
         super.onCreate(savedInstanceState)
 
-        imageLoader=ImageLoader.Builder(
-            applicationContext
-        )
-        .error(R.drawable.error_image)
-        .placeholder(R.drawable.white_background)
-        .crossfade(true)
-        .build()
 
 
         setContent {

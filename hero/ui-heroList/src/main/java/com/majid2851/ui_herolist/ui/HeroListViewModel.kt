@@ -9,20 +9,22 @@ import com.majid2851.core.DataState
 import com.majid2851.core.Logger
 import com.majid2851.core.UIComponent
 import com.majid2851.hero_interactors.GetHeros
+import com.majid2851.ui_herolist.di.HeroListModule.HERO_LIST_LOGGER
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltViewModel
 class HeroListViewModel @Inject constructor(
     private val getHeros: GetHeros,
+    private @Named(HERO_LIST_LOGGER) val logger: Logger
 ):ViewModel()
 {
 
-    private val logger= Logger("HeroListViewModel")
     val state: MutableState<HeroListState> =
         mutableStateOf(HeroListState())
 
