@@ -6,26 +6,21 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import coil.ImageLoader
-import com.majid2851.core.DataState
-import com.majid2851.core.Logger
-import com.majid2851.core.ProgressBarState
-import com.majid2851.core.UIComponent
-import com.majid2851.hero_interactors.HeroInteractors
+import com.majid2851.kotlin_modularization.ui.navigation.Screen
 import com.majid2851.kotlin_modularization.ui.theme.DotaInfoTheme
+import com.majid2851.ui_herodetail.HeroDetail
 import com.majid2851.ui_herolist.ui.HeroList
-import com.majid2851.ui_herolist.ui.HeroListState
 import com.majid2851.ui_herolist.ui.HeroListViewModel
-import com.squareup.sqldelight.android.AndroidSqliteDriver
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -41,16 +36,56 @@ class MainActivity : ComponentActivity()
         setContent {
             DotaInfoTheme()
             {
-                val viewModel:HeroListViewModel by viewModels()
-                HeroList(
-                    state = viewModel.state.value,
-                    imageLoader=imageLoader
-                )
+                val navController= rememberNavController()
+                NavHost(
+                    navController = navController,
+                    startDestination = Screen.HeroList.route,
+                    builder = {
+                        addHeroList(
+                            navController = navController,
+                            imageLoader=imageLoader
+                        )
+                        addHeroDetail()
+
+                    })
+
             }
         }
     }
+
+
+
 }
 
+fun NavGraphBuilder.addHeroDetail() {
+    composable(
+        route = Screen.HeroDetailList.route + "/{heroId}",
+        arguments = Screen.HeroDetailList.arguments
+    )
+    {
+        HeroDetail(heroId = it.arguments?.get("heroId") as Int?)
+    }
+}
+
+
+fun NavGraphBuilder.addHeroList(
+    navController: NavHostController,
+    imageLoader: ImageLoader
+) {
+    composable(route = Screen.HeroList.route)
+    {
+        val viewModel: HeroListViewModel = hiltViewModel()
+        HeroList(
+            state = viewModel.state.value,
+            imageLoader = imageLoader,
+            navigateToDetailScreen = { heroId ->
+                navController.navigate(
+                    "${Screen.HeroDetailList.route}/$heroId"
+                )
+            }
+        )
+    }
+}
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(

@@ -29,9 +29,25 @@ class HeroListViewModel @Inject constructor(
         mutableStateOf(HeroListState())
 
     init {
-       getHeros()
+       onTrigerEvent(HeroListEvents.GetHeros)
 
     }
+
+    fun onTrigerEvent(event:HeroListEvents)
+    {
+        when(event)
+        {
+            is HeroListEvents.GetHeros ->{
+                getHeros()
+            }
+
+
+        }
+
+    }
+
+
+
     private fun getHeros()
     {
         getHeros.excecute().onEach {
