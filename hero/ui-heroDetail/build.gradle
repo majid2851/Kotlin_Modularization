@@ -50,8 +50,14 @@ android {
 
 dependencies {
     "implementation"(project(Modules.heroInteractors))
+    "implementation"(project(Modules.core))
+    "implementation"(project(Modules.heroDomain))
+
     "implementation"(Hilt.android)
     "kapt"(Hilt.compiler)
+
+
+
 
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.20")
