@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity()
                             navController = navController,
                             imageLoader=imageLoader
                         )
-                        addHeroDetail()
+                        addHeroDetail(imageLoader=imageLoader)
 
                     })
 
@@ -57,14 +57,16 @@ class MainActivity : ComponentActivity()
 
 }
 
-fun NavGraphBuilder.addHeroDetail() {
+fun NavGraphBuilder.addHeroDetail(imageLoader:ImageLoader) {
     composable(
         route = Screen.HeroDetailList.route + "/{heroId}",
         arguments = Screen.HeroDetailList.arguments
     )
     {
         val viewModel:HeroDetailViewModel = hiltViewModel()
-        HeroDetail(viewModel.state.value)
+        HeroDetail(
+            state = viewModel.state.value,
+            imageLoader = imageLoader)
     }
 }
 

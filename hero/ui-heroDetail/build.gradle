@@ -55,6 +55,7 @@ dependencies {
 
     "implementation"(Hilt.android)
     "kapt"(Hilt.compiler)
+    "implementation"(Coil.coil)
 
 
 
