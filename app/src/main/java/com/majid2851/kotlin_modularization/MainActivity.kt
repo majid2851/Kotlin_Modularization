@@ -1,6 +1,7 @@
 package com.majid2851.kotlin_modularization
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Text
@@ -78,8 +79,11 @@ fun NavGraphBuilder.addHeroList(
     composable(route = Screen.HeroList.route)
     {
         val viewModel: HeroListViewModel = hiltViewModel()
+
+        Log.i("Sam2231-MainActivity==>","size:"+viewModel.state.value.filterHeros.size.toString())
         HeroList(
             state = viewModel.state.value,
+            events=viewModel::onTrigerEvent,
             imageLoader = imageLoader,
             navigateToDetailScreen = { heroId ->
                 navController.navigate(
@@ -89,18 +93,4 @@ fun NavGraphBuilder.addHeroList(
         )
     }
 }
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    DotaInfoTheme() {
-
-    }
-}
