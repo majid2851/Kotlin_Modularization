@@ -1,13 +1,16 @@
 package com.majid2851.ui_herolist.ui
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.text.toLowerCase
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.majid2851.core.DataState
 import com.majid2851.core.Logger
 import com.majid2851.core.UIComponent
+import com.majid2851.hero_domain.Hero
 import com.majid2851.hero_interactors.GetHeros
 import com.majid2851.ui_herolist.di.HeroListModule.HERO_LIST_LOGGER
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,6 +34,8 @@ class HeroListViewModel @Inject constructor(
     init {
        onTrigerEvent(HeroListEvents.GetHeros)
 
+
+      Log.i("Sam2231-ViewModel==>","size:"+state.value.filterHeros.size.toString())
     }
 
     fun onTrigerEvent(event:HeroListEvents)
@@ -40,12 +45,33 @@ class HeroListViewModel @Inject constructor(
             is HeroListEvents.GetHeros ->{
                 getHeros()
             }
+            is HeroListEvents.FilterHeros ->{
+                filterHeros()
+                Log.i("Sam2231-ViewModelFilter==>","size:"+state.value.filterHeros.size.toString())
+            }
+            is HeroListEvents.UpdateHeroName ->{
+                updateHeroName(event.heroName)
+            }
 
 
+
+
+            else -> {}
         }
 
     }
 
+    private fun filterHeros() {
+        val filterdList:MutableList<Hero> = state.value.heros.filter {
+            it.localizedName.lowercase().contains(state.value.heroName.lowercase())
+        }.toMutableList()
+
+        state.value=state.value.copy(filterHeros = filterdList)
+    }
+
+    private fun updateHeroName(heroName: String) {
+        state.value=state.value.copy(heroName=heroName)
+    }
 
 
     private fun getHeros()
@@ -67,6 +93,10 @@ class HeroListViewModel @Inject constructor(
 
                 is DataState.Data->{
                     state.value=state.value.copy(heros = it.data ?: listOf())
+                    Log.i("Sam2231-dataBeforFilter==>","size:"+state.value.filterHeros.size.toString())
+                    filterHeros()
+
+                    Log.i("Sam2231-dataBeforFilter==>","size:"+state.value.filterHeros.size.toString())
                 }
                 is DataState.Loading->{
                     state.value=state.value.copy(progressBarState = it.progressBarState)
