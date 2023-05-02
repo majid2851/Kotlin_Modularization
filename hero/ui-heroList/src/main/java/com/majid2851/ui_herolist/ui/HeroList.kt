@@ -1,6 +1,7 @@
 package com.majid2851.ui_herolist.ui
 
 import android.util.Log
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,10 +16,12 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import coil.ImageLoader
 import com.majid2851.core.ProgressBarState
+import com.majid2851.core.UIComponentState
+import com.majid2851.ui_herolist.components.HeroListFilter
 import com.majid2851.ui_herolist.components.HeroListItem
 import com.majid2851.ui_herolist.components.HeroListToolbar
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun HeroList(
     state: HeroListState,
@@ -36,31 +39,45 @@ fun HeroList(
 
             HeroListToolbar(
                 heroName = state.heroName,
-                onHeroNameChanged ={heroName->
-                   events(HeroListEvents.UpdateHeroName(heroName))
-                } ,
+                onHeroNameChanged = { heroName ->
+                    events(HeroListEvents.UpdateHeroName(heroName))
+                },
                 onExecuteSearch = {
                     events(HeroListEvents.FilterHeros)
                 },
                 onShowFilterDialog = {
-
+                    events(HeroListEvents.UpdateFilterDialogState(UIComponentState.Show))
                 })
+
+
             LazyColumn()
             {
-                Log.i("Sam2231-HeroList==>","size:"+state.filterHeros.size.toString())
-                items(state.filterHeros){hero->
+                Log.i("Sam2231-HeroList==>", "size:" + state.filterHeros.size.toString())
+                items(state.filterHeros) { hero ->
                     HeroListItem(
-                        hero=hero,
-                        onSelectHero = {heroId->
+                        hero = hero,
+                        onSelectHero = { heroId ->
                             navigateToDetailScreen(heroId)
                         },
-                        imageLoader=imageLoader
+                        imageLoader = imageLoader
                     )
-
 
 
                 }
             }
+        }
+
+        if (state.filterDialogState is UIComponentState.Show)
+        {
+            HeroListFilter(
+                heroFilter = state.heroFilter,
+                onUpdateHeroFilter = {
+                    events(HeroListEvents.UpdateHeroFilter(it))
+                },
+                onCloseDialog ={
+                    events(HeroListEvents.UpdateFilterDialogState(UIComponentState.Hide))
+                }
+            )
         }
 
         if (state.progressBarState is ProgressBarState.Loading)
