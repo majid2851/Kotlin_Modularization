@@ -3,21 +3,18 @@ package com.majid2851.ui_herolist.ui
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.text.toLowerCase
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.majid2851.core.DataState
 import com.majid2851.core.Logger
 import com.majid2851.core.UIComponent
-import com.majid2851.hero_domain.Hero
+import com.majid2851.hero_domain.HeroAttribute
 import com.majid2851.hero_domain.HeroFilter
 import com.majid2851.hero_interactors.FilterHeros
 import com.majid2851.hero_interactors.GetHeros
 import com.majid2851.ui_herolist.di.HeroListModule.HERO_LIST_LOGGER
+import com.majid2851.ui_herolist.di.HeroListModule.filterHero
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -61,12 +58,19 @@ class HeroListViewModel @Inject constructor(
             is HeroListEvents.UpdateFilterDialogState ->{
                 state.value=state.value.copy(filterDialogState = event.uiComponentState)
             }
-
-
+            is HeroListEvents.UpdateAttributeFilter->{
+                updateAttributeFilter(event.attribute)
+            }
 
             else -> {}
         }
 
+    }
+
+    private fun updateAttributeFilter(attribute: HeroAttribute)
+    {
+        state.value=state.value.copy(primaryAttribute = attribute)
+        filterHeros()
     }
 
     private fun updateHeroFilter(heroFilter: HeroFilter) {
