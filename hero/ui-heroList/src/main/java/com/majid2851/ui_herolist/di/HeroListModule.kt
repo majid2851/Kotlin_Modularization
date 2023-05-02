@@ -1,6 +1,7 @@
 package com.majid2851.ui_herolist.di
 
 import com.majid2851.core.Logger
+import com.majid2851.hero_interactors.FilterHeros
 import com.majid2851.hero_interactors.GetHeros
 import com.majid2851.hero_interactors.HeroInteractors
 import dagger.Module
@@ -37,6 +38,16 @@ object HeroListModule
         return interactors.getHeros
     }
 
+
+
+    @Provides
+    @Singleton
+    fun filterHero(
+        interactors:HeroInteractors
+    ):FilterHeros
+    {
+        return interactors.filterHeros
+    }
 
 
 

@@ -11,6 +11,8 @@ import com.majid2851.core.DataState
 import com.majid2851.core.Logger
 import com.majid2851.core.UIComponent
 import com.majid2851.hero_domain.Hero
+import com.majid2851.hero_domain.HeroFilter
+import com.majid2851.hero_interactors.FilterHeros
 import com.majid2851.hero_interactors.GetHeros
 import com.majid2851.ui_herolist.di.HeroListModule.HERO_LIST_LOGGER
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +26,7 @@ import javax.inject.Named
 @HiltViewModel
 class HeroListViewModel @Inject constructor(
     private val getHeros: GetHeros,
+    private val filterHero:FilterHeros,
     private @Named(HERO_LIST_LOGGER) val logger: Logger
 ):ViewModel()
 {
@@ -52,7 +55,9 @@ class HeroListViewModel @Inject constructor(
             is HeroListEvents.UpdateHeroName ->{
                 updateHeroName(event.heroName)
             }
-
+            is HeroListEvents.UpdateHeroFilter ->{
+                updateHeroFilter(event.heroFilter)
+            }
 
 
 
@@ -61,12 +66,20 @@ class HeroListViewModel @Inject constructor(
 
     }
 
-    private fun filterHeros() {
-        val filterdList:MutableList<Hero> = state.value.heros.filter {
-            it.localizedName.lowercase().contains(state.value.heroName.lowercase())
-        }.toMutableList()
+    private fun updateHeroFilter(heroFilter: HeroFilter) {
+        state.value=state.value.copy(heroFilter = heroFilter)
+        filterHeros()
 
-        state.value=state.value.copy(filterHeros = filterdList)
+    }
+
+    private fun filterHeros() {
+        val filteredList=filterHero.excecute(
+            current = state.value.heros,
+            heroName = state.value.heroName,
+            heroFilter = state.value.heroFilter,
+            attrFilter = state.value.primaryAttribute
+        )
+        state.value=state.value.copy(filterHeros = filteredList)
     }
 
     private fun updateHeroName(heroName: String) {
