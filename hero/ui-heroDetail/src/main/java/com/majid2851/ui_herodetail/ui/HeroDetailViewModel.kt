@@ -22,7 +22,7 @@ class HeroDetailViewModel @Inject
     constructor(
         private val getHeroFromCache: GetHeroFromCache,
         private val savedStateHandle: SavedStateHandle,
-        private @Named(HERO_LIST_LOGGER)  val logger:Logger
+//        private @Named(HERO_LIST_LOGGER)  val logger:Logger
     ):ViewModel()
 {
     val state:MutableState<HeroDetailState> = mutableStateOf(HeroDetailState())
@@ -65,7 +65,7 @@ class HeroDetailViewModel @Inject
                             appendToMessageQueue(dataState.uiComponent)
                         }
                         is UIComponent.None->{
-                            logger.log((dataState.uiComponent as UIComponent.None).message)
+//                            logger.log((dataState.uiComponent as UIComponent.None).message)
                         }
                     }
                 }

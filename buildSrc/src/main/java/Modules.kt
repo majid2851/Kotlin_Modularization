@@ -4,7 +4,7 @@ object Modules {
 
     const val core = ":core"
 
-    const val components = ":components"
+    const val components = ":component"
 
     const val constants = ":constants"
 
