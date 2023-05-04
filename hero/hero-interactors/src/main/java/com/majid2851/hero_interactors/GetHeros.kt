@@ -37,7 +37,6 @@ class GetHeros(
 
             emit(DataState.Data(data = cachedHeros))
 
-          throw Exception("You will achieve london position")
 
         }catch (e:Exception){
             e.printStackTrace()

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.majid2851.core.DataState
 import com.majid2851.core.Logger
+import com.majid2851.core.Queue
 import com.majid2851.core.UIComponent
 import com.majid2851.hero_domain.HeroAttribute
 import com.majid2851.hero_domain.HeroFilter
@@ -25,41 +26,47 @@ class HeroListViewModel @Inject constructor(
     private val getHeros: GetHeros,
     private val filterHero:FilterHeros,
     private @Named(HERO_LIST_LOGGER) val logger: Logger
-):ViewModel()
-{
+):ViewModel() {
 
     val state: MutableState<HeroListState> =
         mutableStateOf(HeroListState())
 
     init {
-       onTrigerEvent(HeroListEvents.GetHeros)
-
-
-      Log.i("Sam2231-ViewModel==>","size:"+state.value.filterHeros.size.toString())
+        onTrigerEvent(HeroListEvents.GetHeros)
     }
 
-    fun onTrigerEvent(event:HeroListEvents)
-    {
-        when(event)
-        {
-            is HeroListEvents.GetHeros ->{
+    fun onTrigerEvent(event: HeroListEvents) {
+        when (event) {
+            is HeroListEvents.GetHeros -> {
                 getHeros()
             }
-            is HeroListEvents.FilterHeros ->{
+
+            is HeroListEvents.FilterHeros -> {
                 filterHeros()
-                Log.i("Sam2231-ViewModelFilter==>","size:"+state.value.filterHeros.size.toString())
+                Log.i(
+                    "Sam2231-ViewModelFilter==>",
+                    "size:" + state.value.filterHeros.size.toString()
+                )
             }
-            is HeroListEvents.UpdateHeroName ->{
+
+            is HeroListEvents.UpdateHeroName -> {
                 updateHeroName(event.heroName)
             }
-            is HeroListEvents.UpdateHeroFilter ->{
+
+            is HeroListEvents.UpdateHeroFilter -> {
                 updateHeroFilter(event.heroFilter)
             }
-            is HeroListEvents.UpdateFilterDialogState ->{
-                state.value=state.value.copy(filterDialogState = event.uiComponentState)
+
+            is HeroListEvents.UpdateFilterDialogState -> {
+                state.value = state.value.copy(filterDialogState = event.uiComponentState)
             }
-            is HeroListEvents.UpdateAttributeFilter->{
+
+            is HeroListEvents.UpdateAttributeFilter -> {
                 updateAttributeFilter(event.attribute)
+            }
+
+            is HeroListEvents.OnRemoveHeadFromQueue -> {
+                removeHeadMessage()
             }
 
             else -> {}
@@ -67,65 +74,87 @@ class HeroListViewModel @Inject constructor(
 
     }
 
-    private fun updateAttributeFilter(attribute: HeroAttribute)
-    {
-        state.value=state.value.copy(primaryAttribute = attribute)
+    private fun updateAttributeFilter(attribute: HeroAttribute) {
+        state.value = state.value.copy(primaryAttribute = attribute)
         filterHeros()
     }
 
     private fun updateHeroFilter(heroFilter: HeroFilter) {
-        state.value=state.value.copy(heroFilter = heroFilter)
+        state.value = state.value.copy(heroFilter = heroFilter)
         filterHeros()
 
     }
 
     private fun filterHeros() {
-        val filteredList=filterHero.excecute(
+        val filteredList = filterHero.excecute(
             current = state.value.heros,
             heroName = state.value.heroName,
             heroFilter = state.value.heroFilter,
             attrFilter = state.value.primaryAttribute
         )
-        state.value=state.value.copy(filterHeros = filteredList)
+        state.value = state.value.copy(filterHeros = filteredList)
     }
 
     private fun updateHeroName(heroName: String) {
-        state.value=state.value.copy(heroName=heroName)
+        state.value = state.value.copy(heroName = heroName)
     }
 
 
-    private fun getHeros()
-    {
+    private fun getHeros() {
         getHeros.excecute().onEach {
-            when(it)
-            {
-                is DataState.Response->{
-                    when(it.uiComponent)
-                    {
-                        is UIComponent.Dialog->{
-                            logger.log((it.uiComponent as UIComponent.Dialog).description)
-                        }
-                        is UIComponent.None->{
-                            logger.log((it.uiComponent as UIComponent.None).message)
-                        }
+            when (it) {
+                is DataState.Response -> {
+                    if(it.uiComponent is UIComponent.None){
+                        logger.log("getHeros: ${(it.uiComponent as UIComponent.None).message}")
                     }
+                    else{
+                        appendToMessageQueue(it.uiComponent)
+                    }
+
+
                 }
 
-                is DataState.Data->{
-                    state.value=state.value.copy(heros = it.data ?: listOf())
-                    Log.i("Sam2231-dataBeforFilter==>","size:"+state.value.filterHeros.size.toString())
+                is DataState.Data -> {
+                    state.value = state.value.copy(heros = it.data ?: listOf())
+                    Log.i(
+                        "Sam2231-dataBeforFilter==>",
+                        "size:" + state.value.filterHeros.size.toString()
+                    )
                     filterHeros()
 
-                    Log.i("Sam2231-dataBeforFilter==>","size:"+state.value.filterHeros.size.toString())
+                    Log.i(
+                        "Sam2231-dataBeforFilter==>",
+                        "size:" + state.value.filterHeros.size.toString()
+                    )
                 }
-                is DataState.Loading->{
-                    state.value=state.value.copy(progressBarState = it.progressBarState)
+
+                is DataState.Loading -> {
+                    state.value = state.value.copy(progressBarState = it.progressBarState)
                 }
 
             }
         }.launchIn(viewModelScope)
     }
 
+    private fun appendToMessageQueue(uiComponent: UIComponent){
+        val queue = state.value.errorQueue
+        queue.add(uiComponent)
+        state.value = state.value.copy(errorQueue = Queue(mutableListOf())) // force recompose
+        state.value = state.value.copy(errorQueue = queue)
+    }
 
+    private fun removeHeadMessage()
+    {
+        try {
+            val queue=state.value.errorQueue
+            queue.remove()
+            state.value = state.value.copy(errorQueue = Queue(mutableListOf())) // force recompose
+            state.value = state.value.copy(errorQueue = queue)
+
+
+        }catch (e:Exception){
+            logger.log("nothing for removing for dialogQueue")
+        }
+    }
 
 }
