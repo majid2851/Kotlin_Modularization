@@ -6,5 +6,11 @@ sealed class HeroDetailEvent
         val id:Int
     ):HeroDetailEvent()
 
+    object OnRemoveHeadFromQueue:HeroDetailEvent()
+
+
+
+
+
 
 }

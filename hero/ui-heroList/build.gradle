@@ -59,6 +59,8 @@ dependencies {
     "implementation"(SqlDelight.androidDriver)
     "implementation"(Coil.coil)
 
+    "implementation"(project(Modules.components))
+
     "implementation"(Hilt.android)
     "kapt"(Hilt.compiler)
 //    "implementation"(Hilt.hiltLifeCycle)

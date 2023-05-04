@@ -31,11 +31,12 @@ import kotlin.math.round
 fun HeroDetail(
     state: HeroDetailState,
     imageLoader: ImageLoader,
+    event:(HeroDetailEvent)->Unit
 ) {
     DefaultScreenUI(
         queue = state.errorQueue,
         onRemoveHeadFromQueue={
-
+            event(HeroDetailEvent.OnRemoveHeadFromQueue)
         }
     )
     {

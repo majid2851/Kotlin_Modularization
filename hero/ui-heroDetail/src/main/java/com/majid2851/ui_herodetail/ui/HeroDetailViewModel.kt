@@ -40,9 +40,12 @@ class HeroDetailViewModel @Inject
             is HeroDetailEvent.GetHeroFromCache ->{
                 getHeroFromCache(event.id)
             }
+            is HeroDetailEvent.OnRemoveHeadFromQueue->{
+                removeHeadMessage()
+            }
 
 
-
+            else -> {}
         }
 
     }
@@ -59,14 +62,11 @@ class HeroDetailViewModel @Inject
                     state.value=state.value.copy(hero = dataState.data)
                 }
                 is DataState.Response ->{
-                    when(dataState.uiComponent)
-                    {
-                        is UIComponent.Dialog->{
-                            appendToMessageQueue(dataState.uiComponent)
-                        }
-                        is UIComponent.None->{
-//                            logger.log((dataState.uiComponent as UIComponent.None).message)
-                        }
+                    if(dataState.uiComponent is UIComponent.None){
+//                            logger.log("getHeros: ${(it.uiComponent as UIComponent.None).message}")
+                    }
+                    else{
+                        appendToMessageQueue(dataState.uiComponent)
                     }
                 }
 
@@ -85,5 +85,20 @@ class HeroDetailViewModel @Inject
         state.value=state.value.copy(errorQueue = queue)
 
     }
+
+    private fun removeHeadMessage()
+    {
+        try {
+            val queue=state.value.errorQueue
+            queue.remove()
+            state.value = state.value.copy(errorQueue = Queue(mutableListOf())) // force recompose
+            state.value = state.value.copy(errorQueue = queue)
+
+
+        }catch (e:Exception){
+//            logger.log("nothing for removing for dialogQueue")
+        }
+    }
+
 
 }
