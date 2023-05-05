@@ -138,11 +138,9 @@ class GetHerosTest
 
         assert(emission[0]==DataState.Loading<List<Hero>>(ProgressBarState.Loading))
 
-
         assert(emission[1] is DataState.Data)
 
         assert((emission[1] as DataState.Data).data?.size ?: 0 == 0)
-
 
         assert(emission[2]==DataState.Loading<List<Hero>>(ProgressBarState.Idle))
     }
