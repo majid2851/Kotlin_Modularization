@@ -119,7 +119,33 @@ class GetHerosTest
 
     }
 
+    @Test
+    fun getHero_EmptyList()= runBlocking {
+        val heroDatabase= HeroDatabaseFake()
+        val heroCache=HeroCacheFake(
+            heroDatabase
+        )
+        val heroService=HeroServiceFake().build(
+            type=HeroServiceResponseType.EmptyList
+        )
 
+        getHeros=GetHeros(
+            heroCache = heroCache,
+            service = heroService
+        )
+
+        val emission=getHeros.excecute().toList()
+
+        assert(emission[0]==DataState.Loading<List<Hero>>(ProgressBarState.Loading))
+
+
+        assert(emission[1] is DataState.Data)
+
+        assert((emission[1] as DataState.Data).data?.size ?: 0 == 0)
+
+
+        assert(emission[2]==DataState.Loading<List<Hero>>(ProgressBarState.Idle))
+    }
 
 
 
