@@ -6,16 +6,21 @@ This project is a Kotlin-based Android application built using Clean Architectur
 
 
 #Features
-Offline-first architecture
-Clean Architecture using MVI pattern
-Multi-module project structure
-Jetpack Compose for UI rendering
-Ktor for network communication
-SQL Delight for caching
-Coil for image caching
-Unit tests
-UI testing with Compose
-Hilt for dependency injection
+Kotlin
+Clean Architecture
+MVI
+Multi-module
+Compose
+Ktor (Network)
+SQL Delight (Caching)
+Coil (Image Caching)
+Unit Tests
+UI Testing with Compose
+Hilt Dependency Injection
+Testing with Hilt
+Building an "offline first" application
+
+
 Installation
 To use this project, you will need to have Android Studio installed on your machine. Follow these steps to install the project:
 
