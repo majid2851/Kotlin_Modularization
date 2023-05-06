@@ -19,13 +19,14 @@ Hilt for dependency injection
 Installation
 To use this project, you will need to have Android Studio installed on your machine. Follow these steps to install the project:
 
-Clone the repository from Github using git clone https://github.com/your-username/your-repository.git
+Clone the repository from Github using git clone https://github.com/majid2851/Kotlin_Modularization.git
 Open the project in Android Studio
 Build and run the project using the Android emulator or a connected device
 Usage
 The app is designed to showcase an offline-first experience. It loads data from the network when available, and saves it to a local cache for offline use. The app includes a list view and detail view to demonstrate basic functionality.
 
 #Testing
+
 The project includes both unit and UI tests. To run the tests, use the following steps:
 
 Open the project in Android Studio
