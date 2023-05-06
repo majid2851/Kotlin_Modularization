@@ -26,7 +26,6 @@ Usage
 The app is designed to showcase an offline-first experience. It loads data from the network when available, and saves it to a local cache for offline use. The app includes a list view and detail view to demonstrate basic functionality.
 
 #Testing
-
 The project includes both unit and UI tests. To run the tests, use the following steps:
 
 Open the project in Android Studio
