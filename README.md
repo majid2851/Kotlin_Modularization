@@ -7,18 +7,31 @@ This project is a Kotlin-based Android application built using Clean Architectur
 
 #Features
 Kotlin
+
 Clean Architecture
+
 MVI
+
 Multi-module
+
 Compose
+
 Ktor (Network)
+
 SQL Delight (Caching)
+
 Coil (Image Caching)
+
 Unit Tests
+
 UI Testing with Compose
+
 Hilt Dependency Injection
+
 Testing with Hilt
+
 Building an "offline first" application
+
 
 
 Installation
